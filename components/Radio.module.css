@@ -1,0 +1,26 @@
+.pad {
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: rgb(39 39 42);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+}
+
+.bullet {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-right: 1rem;
+  border-radius: 9999px;
+  border: 2px solid rgb(var(--op-gold-rgb));
+  background-color: rgb(var(--op-white-rgb));
+}
+
+.checked {
+  border-color: rgb(127, 102, 25);
+  background-color: rgb(var(--op-gold-rgb));
+}

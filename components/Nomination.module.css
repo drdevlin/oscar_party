@@ -1,0 +1,28 @@
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.selection {
+  height: 2.75rem;
+}
+
+.categoryName {
+  display: block;
+  margin-bottom: .375rem;
+}
+
+.nominee {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.chevron {
+  height: 2rem;
+  width: 2rem;
+  fill: rgb(63 63 70);
+}

@@ -1,0 +1,17 @@
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  height: 3rem;
+}
+
+.avatarFrame {
+  margin-right: 1rem;
+}
+
+.chevron {
+  height: 2rem;
+  width: 2rem;
+  fill: rgb(63 63 70);
+}

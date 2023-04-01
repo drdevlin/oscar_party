@@ -1,0 +1,8 @@
+.item {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: rgb(39 39 42);
+}
