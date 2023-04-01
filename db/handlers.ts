@@ -2,13 +2,15 @@ import type { Model } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export const get = async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
-  const documents = await Model.find({});
+  const { query } = req;
+  const byId = Object.keys(query).includes('id');
+  const scope = byId ? { _id: query.id } : {};
+  const documents = await Model.find(scope);
   res.status(200).json({ data: documents });
 };
 
 export const post = async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
   const body = JSON.parse(req.body);
-  await Model.validate(body);
   const createdDocument = await Model.create(body);
   res.status(200).json({ data: createdDocument });
 };

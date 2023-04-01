@@ -7,11 +7,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await connect();
   switch (req.method) {
     case 'GET': {
-      const selections = await Selection.find({})
+      const { query } = req;
+      const byUser = Object.keys(query).includes('user');
+      const scope = byUser ? { user: query.user } : {};
+      const selections = await Selection.find(scope)
         .populate('user')
         .populate({
           path: 'nomination',
-          populate: ['movie', 'category']
+          populate: ['nominee', 'category']
         }).exec();
       res.status(200).json({ data: selections });
       break;

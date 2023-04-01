@@ -1,6 +1,6 @@
-export interface Movie {
+export interface Nominee {
   _id?: string;
-  title: string;
+  name: string;
 }
 
 export interface User {
@@ -17,7 +17,7 @@ export interface Category {
 
 export interface Nomination {
   _id?: string;
-  movie: Movie;
+  nominee: Nominee;
   category: Category;
   win: boolean;
 }
