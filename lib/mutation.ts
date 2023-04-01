@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { DeleteResult } from 'mongodb';
-import type { Movie } from '@/types';
+import type { Category, Nominee, Nomination, User } from '@/types';
 
 const makeMutation = <Model>(endpoint: string, name: string) => () => {
   const queryClient = useQueryClient();
@@ -15,4 +15,8 @@ const makeMutation = <Model>(endpoint: string, name: string) => () => {
   })
 }
 
-export const useMovieMutation = makeMutation<Movie>('/api/movie', 'movies');
+export const useNomineeMutation = makeMutation<Nominee>('/api/nominee', 'nominees');
+export const useCategoryMutation = makeMutation<Category>('/api/category', 'categories');
+export const useUserMutation = makeMutation<User>('/api/user', 'users');
+export const useNominationMutation = makeMutation<Nomination>('/api/nomination', 'nominations');
+export const useSelectionMutation = makeMutation<Selection>('/api/selection', 'selections');

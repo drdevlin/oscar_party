@@ -1,17 +1,25 @@
-import type { Category, Movie, Nomination, User, Selection } from "@/types";
+import type { Category, Nominee, Nomination, User, Selection } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
-const makeQuery = <Model>(endpoint: string, name: string) => (init?: RequestInit) => {
+interface Enabler {
+  enabled: boolean;
+}
+
+const makeQuery = <Model>(endpoint: string, name: string) => (init?: RequestInit, enabler?: Enabler) => {
   return useQuery<Model[] | null>({
     queryKey: [name, JSON.stringify(init)].filter(Boolean),
     queryFn: async () => {
-      const response = await fetch(endpoint, init);
+      const body = init?.body && typeof init.body === 'string' ? JSON.parse(init.body) : '';
+      const params = body ? `?${new URLSearchParams(body).toString()}` : '';
+      delete init?.body;
+      const response = await fetch(endpoint + params, init);
       return response.ok ? (await response.json()).data : null;
     },
+    enabled: !enabler || enabler.enabled,
   });
 };
 
-export const useMovieQuery = makeQuery<Movie>('/api/movie', 'movies');
+export const useNomineeQuery = makeQuery<Nominee>('/api/nominee', 'nominees');
 
 export const useUserQuery = makeQuery<User>('/api/user', 'users');
 
