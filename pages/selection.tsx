@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
 import { Selection } from '@/components/Selection';
+import Link from 'next/link';
 
 /* The selection page displays all the nominee selections for a user by category. */
 /* TODO: If the user matches the signed in user, */
@@ -33,7 +34,9 @@ export default function SelectionPage() {
     <main>
       {isUser && (
         <>
-          <h1>{user.name}</h1>
+          <Link href="/">
+            <h1>{user.name}</h1>
+          </Link>
           {
             !!allCategories.length &&
               allCategories.map((category) => {

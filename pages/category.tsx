@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useNominationQuery, useSelectionQuery } from '@/lib/query';
 import { Category } from '@/components/Category';
+import Link from 'next/link';
 
 /* The category page displays all the nominees for a category. */
 /* In a radio-style, it displays the selection of a user. */
@@ -34,7 +35,9 @@ export default function CategoryPage() {
     <main>
       {!!categoryId && !!userId && (
         <>
-          <h1>{categoryName}</h1>
+          <Link href={`/selection?user=${userId}`}>
+            <h1>{categoryName}</h1>
+          </Link>
           {!!nominations.length && (
             <Category
               userId={userId}
