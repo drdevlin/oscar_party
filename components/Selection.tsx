@@ -1,23 +1,24 @@
-import { Category, Nominee } from "@/types";
-import Link from "next/link";
-import { Item } from "@/components/Item";
-import styles from './Nomination.module.css';
+import Link from 'next/link';
+import { Item } from '@/components/Item';
 
-export interface NominationProps {
-  nominee?: Nominee;
+import type { Category, Nominee } from '@/types';
+
+import styles from './Selection.module.css';
+
+export interface SelectionProps {
+  userId: string;
   category: Category;
+  nominee?: Nominee;
   win: boolean;
-  user?: string;
 }
 
-export const Nomination = ({ nominee, category, win, user }: NominationProps) => {
-  const userParam = user ? `&user=${user}` : '';
-  const names = nominee?.name ? nominee.name.split(',') : [];
-  const [principalName] = names;
+/* Displays a user's selection of nominee for a category. */
+export const Selection = ({ userId, category, nominee, win }: SelectionProps) => {
+  const [principalName] = nominee?.name.split(',') || [];
 
   return (
     <Item>
-      <Link className={styles.link} href={`/category?id=${category._id}${userParam}`}>
+      <Link className={styles.link} href={`/category?id=${category._id}&user=${userId}`}>
         <div className={styles.selection}>
           <span className={styles.categoryName}><strong>{category.name}</strong></span>
           <span className={styles.nominee}>{principalName}</span>
@@ -27,5 +28,5 @@ export const Nomination = ({ nominee, category, win, user }: NominationProps) =>
         </svg>
       </Link>
     </Item>
-  )
-}
+  );
+};

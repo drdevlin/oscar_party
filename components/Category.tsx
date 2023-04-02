@@ -1,7 +1,7 @@
-import { useSelectionMutation } from "@/lib/mutation";
-import { Nomination, Selection, User } from "@/types";
-import styles from './Category.module.css';
-import { Radio } from "@/components/Radio";
+import { useSelectionMutation } from '@/lib/mutation';
+import { Radio } from '@/components/Radio';
+
+import type { Nomination, Selection } from "@/types";
 import type { RadioChangeHandler } from "@/components/Radio";
 
 export interface CategoryProps {
@@ -10,10 +10,16 @@ export interface CategoryProps {
   selection?: Selection;
 }
 
+/* Displays the nominees for a category. */
+/* Handles changing the selection. */
 export const Category = ({ userId, nominations, selection }: CategoryProps) => {
+  // Get the selection mutator.
   const selectionMutation = useSelectionMutation();
+
+  // Handlers
   const handleChange: RadioChangeHandler = (choice) => {
     if (!choice) return;
+
     const method = selection ? 'PATCH' : 'POST';
     const body = selection ? (
       {
@@ -29,10 +35,11 @@ export const Category = ({ userId, nominations, selection }: CategoryProps) => {
     selectionMutation.mutateAsync({ method, body: JSON.stringify(body) });
   };
 
+  // Calculated Props
   const choices = nominations.map((nomination) => (
     {
-      id: nomination._id || '',
-      value: nomination.nominee.name.split(',')[0],
+      id: nomination._id || '', // for type safety, but every nom should have an id
+      value: nomination.nominee.name.split(',')[0], // the principal name
     }
   ));
   const initialChoiceId = selection?.nomination._id;
@@ -42,4 +49,4 @@ export const Category = ({ userId, nominations, selection }: CategoryProps) => {
       {!!choices.length && <Radio choices={choices} initialChoiceId={initialChoiceId} onChange={handleChange} />}
     </>
   );
-}
+};

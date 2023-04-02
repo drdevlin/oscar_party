@@ -2,7 +2,7 @@
   height: 3rem;
   width: 3rem;
   border-radius: 9999px;
-  border: 2px solid rgb(244 244 245);
+  border: 2px solid rgb(var(--op-white-rgb));
   font-size: 1.5rem;
   background-color: rgb(212 212 216);
 }

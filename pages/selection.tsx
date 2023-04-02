@@ -1,43 +1,53 @@
-import { useRouter } from "next/router";
-import { useCategoryQuery, useSelectionQuery, useUserQuery } from "@/lib/query";
-import { Nomination } from "@/components/Nomination";
+import { useRouter } from 'next/router';
+import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
+import { Selection } from '@/components/Selection';
 
+/* The selection page displays all the nominee selections for a user by category. */
+/* TODO: If the user matches the signed in user, */
+/* tapping a selection takes you to the category page. */
 export default function SelectionPage() {
+  // Get the user id from the url search params.
   const query = useRouter().query;
-  const userId = Array.isArray(query.user) ? query.user?.[0] : (query.user || undefined);
+  const [userId] = Array.isArray(query.user) ? query.user : [query.user];
 
-  const categoryQuery = useCategoryQuery();
-  const categories = categoryQuery.data;
-
+  // Fetch that user (if there is one).
   const userQuery = useUserQuery({
     body: JSON.stringify({ id: userId }),
-  });
+  }, { enabled: !!userId });
   const [user] = userQuery.data || [];
 
+  // Fetch that user's selections (if there is one).
   const selectionQuery = useSelectionQuery({
     body: JSON.stringify({ user: userId }),
-  });
-  const selections = selectionQuery.data;
+  }, { enabled: !!userId });
+  const userSelections = selectionQuery.data || [];
+
+  // Fetch all the categories.
+  const categoryQuery = useCategoryQuery();
+  const allCategories = categoryQuery.data || [];
+
+  // Calculated Props
+  const isUser = Boolean(user && user._id && user.name);
 
   return (
     <main>
-      {user && (
+      {isUser && (
         <>
           <h1>{user.name}</h1>
           {
-            categories &&
-            categories.map((category) => {
-              const selection = selections?.find(({ nomination }) => nomination.category._id === category._id);
-              return (
-                <Nomination
-                  key={category._id}
-                  nominee={selection?.nomination.nominee}
-                  category={category}
-                  win={!!selection?.nomination.win}
-                  user={user._id}
-                />
-              );
-            })
+            !!allCategories.length &&
+              allCategories.map((category) => {
+                const selection = userSelections.find(({ nomination }) => nomination.category._id === category._id);
+                return !!user._id && (
+                  <Selection
+                    key={category._id}
+                    userId={user._id}
+                    category={category}
+                    nominee={selection?.nomination.nominee}
+                    win={!!selection?.nomination.win}
+                  />
+                );
+              })
           }
         </>
       )}

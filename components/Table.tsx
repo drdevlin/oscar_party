@@ -35,5 +35,5 @@ export const Table = ({ records }: TableProps) => {
         </tbody>
       </table>
     </>
-  )
-}
+  );
+};

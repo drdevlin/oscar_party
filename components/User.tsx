@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
-import Link from 'next/link';
+
 import styles from './User.module.css';
 
 export interface UserProps {
@@ -9,6 +10,7 @@ export interface UserProps {
   avatar: string;
 }
 
+/* Displays a user with avatar. */
 export const User = ({ id, name, avatar }: UserProps) => {
   return (
     <Item>
@@ -22,5 +24,5 @@ export const User = ({ id, name, avatar }: UserProps) => {
         </svg>
       </Link>
     </Item>
-    );
+  );
 };

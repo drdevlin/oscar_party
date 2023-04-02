@@ -1,9 +1,10 @@
 import styles from './Item.module.css';
 
-export interface LinkPadProps {
+export interface ItemProps {
   children?: React.ReactNode;
 }
 
-export const Item = ({ children }: LinkPadProps) => {
-  return <div className={styles.item}>{children}</div>
-}
+/* The main UI container. */
+export const Item = ({ children }: ItemProps) => {
+  return <section className={styles.item}>{children}</section>;
+};

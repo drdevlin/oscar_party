@@ -1,43 +1,24 @@
+import {
+  useCategoryQuery,
+  useNomineeQuery,
+  useNominationQuery,
+  useUserQuery
+} from "@/lib/query";
 import { Edit } from "@/components/Edit";
 import { New } from "@/components/New";
 import { Table } from "@/components/Table";
-import { useCategoryQuery, useNomineeQuery, useNominationQuery, useSelectionQuery, useUserQuery } from "@/lib/query";
 
+/* A very rough admin page for adding and editing documents. */
 export default function Admin() {
   const nomineeQuery = useNomineeQuery();
   const userQuery = useUserQuery();
   const categoryQuery = useCategoryQuery();
   const nominationQuery = useNominationQuery();
-  const selectionQuery = useSelectionQuery();
 
   const allNominees = nomineeQuery.data;
   const allUsers = userQuery.data;
   const allCategories = categoryQuery.data;
   const allNominations = nominationQuery.data;
-  const allSelections = selectionQuery.data;
-
-  // const movieMutation = useMovieMutation();
-  // const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-  //   event.preventDefault();
-  //   const button = event.target as HTMLButtonElement;
-  //   const { form } = button;
-  //   const input = Array.from(form?.children || []).find(element => element instanceof HTMLInputElement) as HTMLInputElement;
-  //   movieMutation.mutateAsync({ method: 'POST', body: JSON.stringify({ title: input.value })});
-  // }
-  // const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-  //   event.preventDefault();
-  //   const button = event.target as HTMLButtonElement;
-  //   const { form } = button;
-  //   const input = Array.from(form?.children || []).find(element => element instanceof HTMLInputElement) as HTMLInputElement;
-  //   movieMutation.mutateAsync({ method: 'PATCH', body: JSON.stringify({ _id: '64188c991a46150b8483ee47', title: input.value })});
-  // }
-  // const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-  //   event.preventDefault();
-  //   const button = event.target as HTMLButtonElement;
-  //   const { form } = button;
-  //   const input = Array.from(form?.children || []).find(element => element instanceof HTMLInputElement) as HTMLInputElement;
-  //   movieMutation.mutateAsync({ method: 'DELETE', body: JSON.stringify({ _id: input.value })});
-  // }
 
   return (
     <>

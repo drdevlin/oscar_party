@@ -1,7 +1,9 @@
-import { User } from '@/components/User';
-import { useUserQuery } from '@/lib/query';
 import Head from 'next/head';
+import { useUserQuery } from '@/lib/query';
+import { User } from '@/components/User';
 
+/* The home page displays all users. */
+/* Tapping on a user takes you to the selection page. */
 export default function Home() {
   const userQuery = useUserQuery();
   const users = userQuery.data;

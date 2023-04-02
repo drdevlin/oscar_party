@@ -4,6 +4,7 @@ export interface AvatarProps {
   avatar: string;
 }
 
+/* Displays an emoji avatar. */
 export const Avatar = ({ avatar }: AvatarProps) => {
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     console.log(event);

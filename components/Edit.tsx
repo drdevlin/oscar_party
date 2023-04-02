@@ -1,6 +1,14 @@
-import { useCategoryMutation, useNomineeMutation, useNominationMutation, useSelectionMutation, useUserMutation } from "@/lib/mutation";
-import { UseMutationResult } from "@tanstack/react-query";
+import {
+  useCategoryMutation,
+  useNomineeMutation,
+  useNominationMutation,
+  useSelectionMutation,
+  useUserMutation
+} from '@/lib/mutation';
 
+import type { UseMutationResult } from '@tanstack/react-query';
+
+// Component
 export interface EditProps {
   model: string;
   fields: string[];
@@ -24,6 +32,7 @@ export const Edit = ({ model, fields }: EditProps) => {
   )
 };
 
+// Subcomponents
 interface ModelFormProps {
   fields: string[];
 }
