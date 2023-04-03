@@ -15,7 +15,7 @@ export const User = ({ id, name, avatar }: UserProps) => {
   return (
     <Item>
       <div className={styles.avatarFrame}>
-        <Avatar avatar={avatar} />
+        <Avatar userId={id} avatar={avatar} />
       </div>
       <Link className={styles.link} href={`/selection?user=${id}`}>
         <h2>{name}</h2>
