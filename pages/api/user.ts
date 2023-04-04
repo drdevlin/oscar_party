@@ -1,13 +1,13 @@
 import { connect } from '@/db';
 import { User } from '@/db/models';
-import { get, post, patch, del } from '@/db/handlers';
+import { userGet, post, patch, del } from '@/db/handlers';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connect();
   switch (req.method) {
     case 'GET': {
-      await get(User, req, res);
+      await userGet(User, req, res);
       break;
     }
     case 'POST': {

@@ -7,6 +7,7 @@ export interface User {
   _id?: string;
   name: string;
   avatar: string;
+  pin?: string;
 }
 
 export interface Category {

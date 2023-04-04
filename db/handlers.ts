@@ -1,13 +1,16 @@
-import type { Model } from 'mongoose';
+import type { Model, ProjectionType } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export const get = async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
+export const makeGet = (projection?: ProjectionType<any>) => async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
   const { query } = req;
   const byId = Object.keys(query).includes('id');
   const scope = byId ? { _id: query.id } : {};
-  const documents = await Model.find(scope);
+  const documents = await Model.find(scope, projection);
   res.status(200).json({ data: documents });
 };
+
+export const get = makeGet();
+export const userGet = makeGet('name avatar');
 
 export const post = async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
   const body = JSON.parse(req.body);

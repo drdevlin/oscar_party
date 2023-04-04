@@ -17,29 +17,30 @@ const makeModel = <ModelType>(name: string, schema: any) => (
 const nomineeSchema = new Schema<NomineeType>({
   name: { type: String, required: true },
 });
-export const Nominee = makeModel('Nominee', nomineeSchema);
+export const Nominee = makeModel<NomineeType>('Nominee', nomineeSchema);
 
 const userSchema = new Schema<UserType>({
   name: { type: String, required: true },
   avatar: { type: String, required: true },
+  pin: String,
 });
-export const User = makeModel('User', userSchema);
+export const User = makeModel<UserType>('User', userSchema);
 
 const categorySchema = new Schema<CategoryType>({
   name: { type: String, required: true },
   year: { type: Number, required: true },
 });
-export const Category = makeModel('Category', categorySchema);
+export const Category = makeModel<CategoryType>('Category', categorySchema);
 
 const nominationSchema = new Schema<NominationType>({
   nominee: { type: Schema.Types.ObjectId, ref: 'Nominee', required: true },
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   win: { type: Boolean, required: true },
 });
-export const Nomination = makeModel('Nomination', nominationSchema);
+export const Nomination = makeModel<NominationType>('Nomination', nominationSchema);
 
 const selectionSchema = new Schema<SelectionType>({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   nomination: { type: Schema.Types.ObjectId, ref: 'Nomination', required: true },
 });
-export const Selection = makeModel('Selection', selectionSchema);
+export const Selection = makeModel<SelectionType>('Selection', selectionSchema);
