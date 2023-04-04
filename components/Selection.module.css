@@ -13,9 +13,3 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
-
-.chevron {
-  height: 2rem;
-  width: 2rem;
-  fill: rgb(63 63 70);
-}

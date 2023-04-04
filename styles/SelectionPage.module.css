@@ -8,3 +8,9 @@
 .linkDisabled {
   pointer-events: none;
 }
+
+.chevron {
+  height: 2rem;
+  width: 2rem;
+  fill: rgb(63 63 70);
+}

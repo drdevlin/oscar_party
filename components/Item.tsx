@@ -6,5 +6,9 @@ export interface ItemProps {
 
 /* The main UI container. */
 export const Item = ({ children }: ItemProps) => {
-  return <section className={styles.item}>{children}</section>;
+  return (
+    <section className={styles.item}>
+      {children}
+    </section>
+  );
 };

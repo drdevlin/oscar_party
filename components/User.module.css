@@ -10,6 +10,23 @@
   margin-right: 1rem;
 }
 
+.input {
+  flex: none;
+  width: 128px;
+  border: none;
+  font-size: 1.5rem;
+  color: rgb(82 82 91);
+  background-color: rgb(39 39 42);
+}
+
+.input::placeholder {
+  color: rgb(82 82 91);
+}
+
+.input:focus {
+  outline: none;
+}
+
 .chevron {
   height: 2rem;
   width: 2rem;
