@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 import type { Model, ProjectionType } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -12,11 +14,22 @@ export const makeGet = (projection?: ProjectionType<any>) => async (Model: Model
 export const get = makeGet();
 export const userGet = makeGet('name avatar');
 
-export const post = async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
+export type BodyFormatter = (body: any) => any;
+
+export const makePost = (bodyFormatter?: BodyFormatter) => async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
+  const format = bodyFormatter || ((x: any) => x);
   const body = JSON.parse(req.body);
-  const createdDocument = await Model.create(body);
+  const formattedBody = format(body);
+  const createdDocument = await Model.create(formattedBody);
   res.status(200).json({ data: createdDocument });
 };
+
+export const post = makePost();
+export const userPost = makePost((body: any) => {
+  const bodyCopy = JSON.parse(JSON.stringify(body));
+  bodyCopy.pin = bcrypt.hashSync(bodyCopy.pin, 3);
+  return bodyCopy;
+});
 
 export const patch = async (Model: Model<any>, req: NextApiRequest, res: NextApiResponse) => {
   const body = JSON.parse(req.body);

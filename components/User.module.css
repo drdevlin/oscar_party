@@ -12,11 +12,11 @@
 
 .input {
   flex: none;
-  width: 128px;
+  width: 8rem;
   border: none;
   font-size: 1.5rem;
   color: rgb(82 82 91);
-  background-color: rgb(39 39 42);
+  background-color: transparent;
 }
 
 .input::placeholder {

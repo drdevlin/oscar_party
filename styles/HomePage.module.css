@@ -1,0 +1,13 @@
+.addNewUser {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+} 
+
+.plus {
+  height: 2rem;
+  width: 2rem;
+  fill: rgb(39 39 42);
+}
