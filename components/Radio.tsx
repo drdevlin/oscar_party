@@ -4,8 +4,9 @@ import classNames from 'classnames';
 import styles from './Radio.module.css';
 
 export interface Choice {
-  id: string,
-  value: string,
+  id: string;
+  value: string;
+  highlight?: boolean;
 }
 
 export type RadioChangeHandler = (choice?: Choice) => void;
@@ -42,7 +43,7 @@ export const Radio = ({ choices, initialChoiceId, onChange }: RadioProps) => {
             styles.bullet,
             { [styles.checked]: choice.id === checked }
           )} />
-        {choice.value}
+        <span className={choice.highlight ? styles.highlight : ''}>{choice.value}</span>
       </div>
     ))}
   </section>

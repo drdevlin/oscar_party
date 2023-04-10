@@ -40,6 +40,7 @@ export const Category = ({ userId, nominations, selection }: CategoryProps) => {
     {
       id: nomination._id || '', // for type safety, but every nom should have an id
       value: nomination.nominee.name.split(',')[0], // the principal name
+      highlight: nomination.win,
     }
   ));
   const initialChoiceId = selection?.nomination._id;

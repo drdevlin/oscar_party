@@ -14,7 +14,7 @@ export const Selection = ({ category, nominee, win }: SelectionProps) => {
 
   return (
     <div className={styles.selection}>
-      <span className={styles.categoryName}><strong>{category.name}</strong></span>
+      <span className={styles.categoryName}><strong>{category.name}</strong>{win && ' ⭐️'}</span>
       <span className={styles.nominee}>{principalName}</span>
     </div>
   );
