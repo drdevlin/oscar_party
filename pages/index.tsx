@@ -38,7 +38,7 @@ export default function Home() {
       </Head>
       <main>
         <h1>Users</h1>
-        {users.length &&
+        {!!users.length &&
           users.map((user) => (user._id &&
             <User
               key={user._id}
