@@ -14,6 +14,7 @@ export interface Category {
   _id?: string;
   name: string;
   year: number;
+  points: number;
 }
 
 export interface Nomination {

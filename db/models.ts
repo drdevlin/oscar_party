@@ -29,6 +29,7 @@ export const User = makeModel<UserType>('User', userSchema);
 const categorySchema = new Schema<CategoryType>({
   name: { type: String, required: true },
   year: { type: Number, required: true },
+  points: { type: Number, required: true },
 });
 export const Category = makeModel<CategoryType>('Category', categorySchema);
 

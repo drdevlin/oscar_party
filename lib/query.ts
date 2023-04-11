@@ -1,6 +1,7 @@
 import type { Category, Nominee, Nomination, User, Selection } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
+// Model Queries
 interface Enabler {
   enabled: boolean;
 }
@@ -28,3 +29,12 @@ export const useCategoryQuery = makeQuery<Category>('/api/category', 'categories
 export const useNominationQuery = makeQuery<Nomination>('/api/nomination', 'nominations');
 
 export const useSelectionQuery = makeQuery<Selection>('/api/selection', 'selections');
+
+// Other
+export const useWinnerQuery = () => (useQuery<string[] | null>({
+  queryKey: ['winner'],
+  queryFn: async () => {
+    const response = await fetch('/api/winner/2022');
+    return response.ok ? (await response.json()).data : null;
+  },
+}));
