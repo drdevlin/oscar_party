@@ -1,8 +1,9 @@
 import { useRouter } from 'next/router';
-import { useNominationQuery, useSelectionQuery } from '@/lib/query';
-import { Category } from '@/components/Category';
 import Link from 'next/link';
+import Head from 'next/head';
+import { useNominationQuery, useSelectionQuery } from '@/lib/query';
 import { useUserStore } from '@/lib/userStore';
+import { Category } from '@/components/Category';
 
 /* The category page displays all the nominees for a category. */
 /* In a radio-style, it displays the selection of a user. */
@@ -37,21 +38,30 @@ export default function CategoryPage() {
   const categoryName = nominations.length ? nominations[0].category.name : '';
 
   return (
-    <main>
-      {!!categoryId && !!userId && (
-        <>
-          <Link href={`/selection?user=${userId}`}>
-            <h1>{categoryName}</h1>
-          </Link>
-          {!!nominations.length && (
-            <Category
-              userId={userId}
-              nominations={nominations}
-              selection={userSelection}
-            />
-          )}
-        </>
-      )}
-    </main>
-  )
+    <>
+      <Head>
+        <title>{categoryName}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        {
+          !!categoryId && !!userId &&
+            <>
+              <Link href={`/selection?user=${userId}`}>
+                <h1>{categoryName}</h1>
+              </Link>
+              {
+                !!nominations.length &&
+                  <Category
+                    userId={userId}
+                    nominations={nominations}
+                    selection={userSelection}
+                  />
+              }
+            </>
+        }
+      </main>
+    </>
+  );
 }

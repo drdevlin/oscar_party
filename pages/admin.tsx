@@ -26,9 +26,9 @@ export default function Admin() {
       <h2>All Categories</h2>
       <Table records={allCategories || []} />
       <h2>Edit</h2>
-      <Edit model="Category" fields={['_id', 'name', 'year']} />
+      <Edit model="Category" fields={['_id', 'name', 'year', 'points']} />
       <h2>New</h2>
-      <New model="Category" fields={['name', 'year']} />
+      <New model="Category" fields={['name', 'year', 'points']} />
       <h2>All Nominees</h2>
       <Table records={allNominees || []} />
       <h2>Edit</h2>

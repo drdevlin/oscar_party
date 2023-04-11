@@ -22,8 +22,7 @@
 }
 
 .checked {
-  border-color: rgb(127, 102, 25);
-  background-color: rgb(var(--op-gold-rgb));
+  border-width: 8px;
 }
 
 .highlight {

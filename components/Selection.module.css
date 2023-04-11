@@ -1,4 +1,15 @@
-.selection {
+.selectionLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.linkDisabled {
+  pointer-events: none;
+}
+
+.content {
   height: 2.75rem;
 }
 
@@ -12,4 +23,10 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+}
+
+.chevron {
+  height: 2rem;
+  width: 2rem;
+  fill: rgb(63 63 70);
 }
