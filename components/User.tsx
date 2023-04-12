@@ -43,7 +43,7 @@ export const User = ({ id, name, avatar }: UserProps) => {
       setPin('');
       setPinMode(false);
       (async () => {
-        const response = await fetch('/api/auth', {
+        const response = await fetch('/api/signin', {
           method: 'POST',
           body: JSON.stringify({ user: id, pin: newPin }),
         });
