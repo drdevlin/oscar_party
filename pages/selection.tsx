@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
 import { Selection } from '@/components/Selection';
 
-import styles from '@/styles/SelectionPage.module.css';
 import { useUserStore } from '@/lib/userStore';
 
 /* The selection page displays all the nominee selections for a user by category. */
