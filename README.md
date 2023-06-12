@@ -1,9 +1,11 @@
 # Oscar Party
 A Mobile-First Interactive Oscar Ballot for Personal Use
 
-![users](/docs/users.png)
-![selections](/docs/selections.png)
-![nominees](/docs/nominees.png)
+<p align="middle">
+  <img src="/docs/users.png" alt="users" width="32%"/>
+  <img src="/docs/selections.png" alt="selections" width="32%"/>
+  <img src="/docs/nominees.png" alt="nominees" width="32%"/>
+</p>
 
 ## Built With
 - Next.js
