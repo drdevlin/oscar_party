@@ -14,6 +14,8 @@ const sessionOptions = {
 };
 
 export const middleware = async (req: NextRequest) => {
+  if (req.method === 'GET') return;  // read access
+
   const res = NextResponse.next();
   const session = await getIronSession(req, res, sessionOptions);
 
