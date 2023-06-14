@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Head from 'next/head';
 import { useUserQuery, useWinnerQuery } from '@/lib/query';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
+import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
 
 import type { User as UserType } from '@/types';
 
@@ -11,6 +12,9 @@ import styles from '@/styles/HomePage.module.css';
 /* The home page displays all users. */
 /* Tapping on a user takes you to the selection page. */
 export default function Home() {
+  // Context
+  const { isVisible: unauthorizedVisibility } = useContext(UnauthorizedContext);
+
   // State
   const [showNewUser, setShowNewUser] = useState(false);
   
@@ -34,6 +38,7 @@ export default function Home() {
       <Head>
         <title>Oscar Party</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
@@ -47,6 +52,7 @@ export default function Home() {
           )
         }
       </main>
+      {unauthorizedVisibility && <Unauthorized />}
     </>
   )
 }
