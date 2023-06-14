@@ -1,0 +1,31 @@
+.unauthorized {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(183, 4, 4, 0.5);
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  animation-name: fadeout;
+}
+
+.lock {
+  height: 10rem;
+  width: 10rem;
+  fill: rgb(183, 4, 4, 0.8);
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

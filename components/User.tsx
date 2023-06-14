@@ -1,10 +1,12 @@
+import { useContext, useState } from 'react';
 import Link from 'next/link';
+
+import { useUserStore } from '@/lib/userStore';
+import { UnauthorizedContext } from '@/components/Unauthorized';
 import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
 
 import styles from './User.module.css';
-import { useUserStore } from '@/lib/userStore';
-import { useState } from 'react';
 
 export interface UserProps {
   id: string;
@@ -14,6 +16,9 @@ export interface UserProps {
 
 /* Displays a user with avatar. */
 export const User = ({ id, name, avatar }: UserProps) => {
+  // Context
+  const { show: showUnauthorized } = useContext(UnauthorizedContext);
+
   // State
   const currentUserId = useUserStore((state) => state.userId);
   const setCurrentUserId = useUserStore((state) => state.setUserId);
@@ -47,6 +52,7 @@ export const User = ({ id, name, avatar }: UserProps) => {
           method: 'POST',
           body: JSON.stringify({ user: id, pin: newPin }),
         });
+        if (response.status === 401) showUnauthorized();
         const auth = response.ok ? (await response.json()).data.auth : false;
         if (auth) setCurrentUserId(id);
       })();
