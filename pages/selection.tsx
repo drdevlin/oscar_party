@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Head from 'next/head';
+import { useUserStore } from '@/lib/userStore';
 import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
 import { Selection } from '@/components/Selection';
-
-import { useUserStore } from '@/lib/userStore';
+import { OscarPartyHead } from '@/components/OscarPartyHead';
 
 /* The selection page displays all the nominee selections for a user by category. */
 /* If the user matches the signed in user, */
@@ -39,11 +38,7 @@ export default function SelectionPage() {
 
   return (
     <>
-      <Head>
-        <title>{title}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <OscarPartyHead />
       <main>
         {
           !!user &&

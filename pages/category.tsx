@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Head from 'next/head';
 import { useNominationQuery, useSelectionQuery } from '@/lib/query';
 import { useUserStore } from '@/lib/userStore';
 import { Category } from '@/components/Category';
+import { OscarPartyHead } from '@/components/OscarPartyHead';
 
 /* The category page displays all the nominees for a category. */
 /* In a radio-style, it displays the selection of a user. */
@@ -39,11 +39,7 @@ export default function CategoryPage() {
 
   return (
     <>
-      <Head>
-        <title>{categoryName}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <OscarPartyHead />
       <main>
         {
           !!categoryId && !!userId &&
