@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import Head from 'next/head';
 import { useUserQuery, useWinnerQuery } from '@/lib/query';
+import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
 import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
@@ -35,12 +35,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Oscar Party</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <OscarPartyHead />
       <main>
         <h1>Users</h1>
         {!!users.length && <Users users={users} />}
