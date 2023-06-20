@@ -5,6 +5,7 @@ import { useUserStore } from '@/lib/userStore';
 import { UnauthorizedContext } from '@/components/Unauthorized';
 import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
+import { Pin } from '@/components/Pin';
 
 import styles from './User.module.css';
 
@@ -40,17 +41,14 @@ export const User = ({ id, name, avatar }: UserProps) => {
     setPinMode(true);
   };
 
-  const handlePinChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    event.preventDefault();
-    const { value } = event.target;
-    const newPin = /\D+/.test(value) ? pin : value;
-    if (value.length === 4) {
+  const handlePinChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+    if (target.value.length === 4) {
       setPin('');
       setPinMode(false);
       (async () => {
         const response = await fetch('/api/signin', {
           method: 'POST',
-          body: JSON.stringify({ user: id, pin: newPin }),
+          body: JSON.stringify({ user: id, pin: target.value }),
         });
         if (response.status === 401) showUnauthorized();
         const auth = response.ok ? (await response.json()).data.auth : false;
@@ -58,7 +56,7 @@ export const User = ({ id, name, avatar }: UserProps) => {
       })();
       return;
     }
-    setPin(newPin);
+    setPin(target.value);
   }
 
 
@@ -68,14 +66,7 @@ export const User = ({ id, name, avatar }: UserProps) => {
         <Avatar avatar={avatar} isSignedIn={isSignedIn} onClick={handleAvatarClick} />
       </div>
       {pinMode ? (
-        <input
-          className={styles.input}
-          type="password"
-          value={pin}
-          placeholder="_ _ _ _"
-          autoFocus
-          onChange={handlePinChange}
-        />
+        <Pin value={pin} onChange={handlePinChange} description="4-Digit PIN" autoFocus />
       ) : (
         <Link className={styles.link} href={`/selection?user=${id}`}>
           <h2>{name}</h2>

@@ -23,6 +23,10 @@
   align-items: center;
 }
 
+.pinSpacer {
+  width: 1rem;
+}
+
 .avatarFrame {
   flex: none;
   position: relative;
@@ -44,20 +48,24 @@
   color: rgb(82 82 91);
 }
 
-.avatarInput, .nameInput, .pinInput {
+.avatarInput, .nameInput {
   border: none;
   font-size: 1.5rem;
   font-weight: bold;
   background-color: transparent;
 }
 
-.avatarInput:focus, .nameInput:focus, .pinInput:focus {
+.avatarInput:focus, .nameInput:focus {
   outline: none;
 }
 
-.avatarInput::placeholder, .nameInput::placeholder, .pinInput::placeholder {
+.avatarInput::placeholder, .nameInput::placeholder {
   font-size: 1.5rem;
   color: rgb(82 82 91);
+}
+
+.avatarInput::placeholder {
+  opacity: 0.4;
 }
 
 .avatarInput {
@@ -68,9 +76,4 @@
 .nameInput {
   width: 6rem;
   color: rgb(var(--op-white-rgb));
-}
-
-.pinInput {
-  width: 7rem;
-  color: rgb(82 82 91);
 }

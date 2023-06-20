@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useUserMutation } from '@/lib/mutation';
 import { Item } from '@/components/Item';
-import { Avatar } from './Avatar';
+import { Avatar } from '@/components/Avatar';
+import { Pin } from '@/components/Pin';
 
 import styles from './NewUser.module.css';
 
@@ -46,13 +47,11 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
   
   const handlePinInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     if (target.value.length > 4) return;
-    if (/\D+/.test(target.value)) return;
     setPin(target.value);
   }
   
   const handlePinConfirmationInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     if (target.value.length > 4) return;
-    if (/\D+/.test(target.value)) return;
     setPinConfirmation(target.value);
   }
   
@@ -95,8 +94,9 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
         <div className={styles.inputFrame}>
           {mode === 'pinInput' ? (
             <>
-              <input className={styles.pinInput} type="password" value={pin} placeholder="PIN" autoFocus onChange={handlePinInputChange} />
-              <input className={styles.pinInput} type="password" value={pinConfirmation} placeholder="Confirm" onChange={handlePinConfirmationInputChange}/>
+              <Pin value={pin} onChange={handlePinInputChange} description="4-Digit PIN" autoFocus />
+              <div className={styles.pinSpacer} />
+              <Pin value={pinConfirmation} onChange={handlePinConfirmationInputChange} description="Re-Enter PIN" />
             </>
           ) : (
             <>
@@ -110,6 +110,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
                     <input
                       className={styles.avatarInput}
                       value={avatar}
+                      placeholder="🤔"
                       onChange={handleAvatarInputChange}
                       onBlur={handleAvatarInputBlur}
                       autoFocus
