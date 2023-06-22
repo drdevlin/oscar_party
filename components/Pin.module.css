@@ -1,6 +1,7 @@
 .pin {
   flex: none;
   position: relative;
+  display: flex;
   width: 6rem;
 }
 
