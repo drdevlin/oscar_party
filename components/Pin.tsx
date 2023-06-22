@@ -67,6 +67,7 @@ export const Pin = ({ onChange, description = '', autoFocus = false }: PinProps)
       <input
         className={styles.input}
         type="password"
+        inputMode="numeric"
         value={pin[0] ?? ''}
         placeholder="_"
         autoFocus={autoFocus}
@@ -78,6 +79,7 @@ export const Pin = ({ onChange, description = '', autoFocus = false }: PinProps)
       <input
         className={styles.input}
         type="password"
+        inputMode="numeric"
         value={pin[1] ?? ''}
         placeholder="_"
         onChange={handleChange(1)}
@@ -89,6 +91,7 @@ export const Pin = ({ onChange, description = '', autoFocus = false }: PinProps)
       <input
         className={styles.input}
         type="password"
+        inputMode="numeric"
         value={pin[2] ?? ''}
         placeholder="_"
         onChange={handleChange(2)}
@@ -100,6 +103,7 @@ export const Pin = ({ onChange, description = '', autoFocus = false }: PinProps)
       <input
         className={styles.input}
         type="password"
+        inputMode="numeric"
         value={pin[3] ?? ''}
         placeholder="_"
         onChange={handleChange(3)}
