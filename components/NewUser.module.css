@@ -20,6 +20,7 @@
 
 .inputFrame {
   display: flex;
+  height: 3rem;
   align-items: center;
 }
 

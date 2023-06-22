@@ -4,6 +4,8 @@ import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
 import { Pin } from '@/components/Pin';
 
+import type { PinProps } from '@/components/Pin';
+
 import styles from './NewUser.module.css';
 
 export interface NewUserProps {
@@ -45,14 +47,12 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
     setName(target.value);
   }
   
-  const handlePinInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    if (target.value.length > 4) return;
-    setPin(target.value);
+  const handlePinInputChange: PinProps['onChange'] = (value) => {
+    setPin(value);
   }
   
-  const handlePinConfirmationInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    if (target.value.length > 4) return;
-    setPinConfirmation(target.value);
+  const handlePinConfirmationInputChange: PinProps['onChange'] = (value) => {
+    setPinConfirmation(value);
   }
   
   const handleCancelButtonClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -60,6 +60,8 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
     setMode('standby');
     setAvatar('');
     setName('');
+    setPin('');
+    setPinConfirmation('');
     onCancel(event);
   }
   
@@ -71,7 +73,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
       setMode('pinInput');
       return;
     }
-    if (pin !== pinConfirmation) return;
+    if (Number.isNaN(Number(pin)) || pin !== pinConfirmation) return;
     const body = { avatar, name, pin };
     (async () => {
       await userMutation.mutateAsync({ method: 'POST', body: JSON.stringify(body)});
@@ -79,6 +81,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
       setAvatar('');
       setName('');
       setPin('');
+      setPinConfirmation('');
       onSubmit(event);
     })();
   }
@@ -94,9 +97,9 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
         <div className={styles.inputFrame}>
           {mode === 'pinInput' ? (
             <>
-              <Pin value={pin} onChange={handlePinInputChange} description="4-Digit PIN" autoFocus />
+              <Pin onChange={handlePinInputChange} description="4-Digit PIN" autoFocus />
               <div className={styles.pinSpacer} />
-              <Pin value={pinConfirmation} onChange={handlePinConfirmationInputChange} description="Re-Enter PIN" />
+              <Pin onChange={handlePinConfirmationInputChange} description="Re-Enter PIN" />
             </>
           ) : (
             <>
