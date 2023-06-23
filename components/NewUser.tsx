@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useUserMutation } from '@/lib/mutation';
 import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
 import { Pin } from '@/components/Pin';
 
-import type { PinProps } from '@/components/Pin';
+import type { PinProps, PinRef } from '@/components/Pin';
 
 import styles from './NewUser.module.css';
 
@@ -24,6 +24,9 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
   const [name, setName] = useState('');
   const [pin, setPin] = useState('');
   const [pinConfirmation, setPinConfirmation] = useState('');
+
+  // References
+  const pinConfirmationRef = useRef<PinRef | null>(null);
     
   // Handlers
   const handleAvatarClick: React.MouseEventHandler<HTMLDivElement> = () => {
@@ -49,6 +52,8 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
   
   const handlePinInputChange: PinProps['onChange'] = (value) => {
     setPin(value);
+    // When this pin is complete, shift focus to confirmation.
+    if (!Number.isNaN(Number(value))) pinConfirmationRef.current?.focus();
   }
   
   const handlePinConfirmationInputChange: PinProps['onChange'] = (value) => {
@@ -99,7 +104,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
             <>
               <Pin onChange={handlePinInputChange} description="4-Digit PIN" autoFocus />
               <div className={styles.pinSpacer} />
-              <Pin onChange={handlePinConfirmationInputChange} description="Re-Enter PIN" />
+              <Pin onChange={handlePinConfirmationInputChange} description="Re-Enter PIN" ref={pinConfirmationRef} />
             </>
           ) : (
             <>
