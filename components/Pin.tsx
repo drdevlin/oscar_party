@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import styles from './Pin.module.css';
 
 // Helpers
@@ -15,14 +15,23 @@ export interface PinProps {
   description?: string;
   autoFocus?: boolean;
 }
+export interface PinRef {
+  focus: () => void;
+}
 
 /* Input for PIN Code Entry */
-export const Pin = ({ onChange, description = '', autoFocus = false }: PinProps) => {
+export const Pin = forwardRef(({ onChange, description = '', autoFocus = false }: PinProps, ref: React.ForwardedRef<PinRef>) => {
   // State
   const [pin, setPin] = useState<PIN>([null, null, null, null]);
 
   // References
   const inputs: React.MutableRefObject<HTMLInputElement | null>[] = [useRef(null), useRef(null), useRef(null), useRef(null)];
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputs[0].current?.focus();
+    }
+  }));
 
   // Handlers
   const handleChange = (pinIndex: PINIndex): React.ChangeEventHandler<HTMLInputElement> => (event) => {
@@ -114,4 +123,4 @@ export const Pin = ({ onChange, description = '', autoFocus = false }: PinProps)
       <span className={styles.desc}>{description}</span>
     </div>
   );
-};
+});
