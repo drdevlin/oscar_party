@@ -20,7 +20,7 @@ export interface PinRef {
 }
 
 /* Input for PIN Code Entry */
-export const Pin = forwardRef(({ onChange, description = '', autoFocus = false }: PinProps, ref: React.ForwardedRef<PinRef>) => {
+const Pin = forwardRef(({ onChange, description = '', autoFocus = false }: PinProps, ref: React.ForwardedRef<PinRef>) => {
   // State
   const [pin, setPin] = useState<PIN>([null, null, null, null]);
 
@@ -124,3 +124,6 @@ export const Pin = forwardRef(({ onChange, description = '', autoFocus = false }
     </div>
   );
 });
+Pin.displayName = 'Pin';
+
+export { Pin };
