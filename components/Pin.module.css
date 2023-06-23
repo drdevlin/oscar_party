@@ -1,0 +1,30 @@
+.pin {
+  flex: none;
+  position: relative;
+  display: flex;
+  width: 6rem;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  font-size: 1.5rem;
+  color: rgb(82 82 91);
+  background-color: transparent;
+}
+
+.input::placeholder {
+  color: rgb(82 82 91);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.desc {
+  position: absolute;
+  left: 0.2rem;
+  bottom: -0.75rem;
+  font-size: 0.75rem;
+  color: rgb(82 82 91);
+}

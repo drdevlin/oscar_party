@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useUserMutation } from '@/lib/mutation';
 import { Item } from '@/components/Item';
-import { Avatar } from './Avatar';
+import { Avatar } from '@/components/Avatar';
+import { Pin } from '@/components/Pin';
+
+import type { PinProps, PinRef } from '@/components/Pin';
 
 import styles from './NewUser.module.css';
 
@@ -21,6 +24,9 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
   const [name, setName] = useState('');
   const [pin, setPin] = useState('');
   const [pinConfirmation, setPinConfirmation] = useState('');
+
+  // References
+  const pinConfirmationRef = useRef<PinRef | null>(null);
     
   // Handlers
   const handleAvatarClick: React.MouseEventHandler<HTMLDivElement> = () => {
@@ -44,16 +50,14 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
     setName(target.value);
   }
   
-  const handlePinInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    if (target.value.length > 4) return;
-    if (/\D+/.test(target.value)) return;
-    setPin(target.value);
+  const handlePinInputChange: PinProps['onChange'] = (value) => {
+    setPin(value);
+    // When this pin is complete, shift focus to confirmation.
+    if (!Number.isNaN(Number(value))) pinConfirmationRef.current?.focus();
   }
   
-  const handlePinConfirmationInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    if (target.value.length > 4) return;
-    if (/\D+/.test(target.value)) return;
-    setPinConfirmation(target.value);
+  const handlePinConfirmationInputChange: PinProps['onChange'] = (value) => {
+    setPinConfirmation(value);
   }
   
   const handleCancelButtonClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -61,6 +65,8 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
     setMode('standby');
     setAvatar('');
     setName('');
+    setPin('');
+    setPinConfirmation('');
     onCancel(event);
   }
   
@@ -72,7 +78,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
       setMode('pinInput');
       return;
     }
-    if (pin !== pinConfirmation) return;
+    if (Number.isNaN(Number(pin)) || pin !== pinConfirmation) return;
     const body = { avatar, name, pin };
     (async () => {
       await userMutation.mutateAsync({ method: 'POST', body: JSON.stringify(body)});
@@ -80,6 +86,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
       setAvatar('');
       setName('');
       setPin('');
+      setPinConfirmation('');
       onSubmit(event);
     })();
   }
@@ -95,8 +102,9 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
         <div className={styles.inputFrame}>
           {mode === 'pinInput' ? (
             <>
-              <input className={styles.pinInput} type="password" value={pin} placeholder="PIN" autoFocus onChange={handlePinInputChange} />
-              <input className={styles.pinInput} type="password" value={pinConfirmation} placeholder="Confirm" onChange={handlePinConfirmationInputChange}/>
+              <Pin onChange={handlePinInputChange} description="4-Digit PIN" autoFocus />
+              <div className={styles.pinSpacer} />
+              <Pin onChange={handlePinConfirmationInputChange} description="Re-Enter PIN" ref={pinConfirmationRef} />
             </>
           ) : (
             <>
@@ -110,6 +118,7 @@ export const NewUser = ({ onCancel, onSubmit }: NewUserProps) => {
                     <input
                       className={styles.avatarInput}
                       value={avatar}
+                      placeholder="🤔"
                       onChange={handleAvatarInputChange}
                       onBlur={handleAvatarInputBlur}
                       autoFocus
