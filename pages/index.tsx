@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
-import { useUserQuery, useWinnerQuery } from '@/lib/query';
+import { useTallyQuery } from '@/lib/query';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
 import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
 
-import type { User as UserType } from '@/types';
+import type { Tally } from '@/types';
 
 import styles from '@/styles/HomePage.module.css';
 
@@ -19,8 +19,8 @@ export default function Home() {
   const [showNewUser, setShowNewUser] = useState(false);
   
   // Queries
-  const userQuery = useUserQuery();
-  const users = userQuery.data || [];
+  const tallyQuery = useTallyQuery();
+  const tallies = tallyQuery.data || [];
   
   // Handlers
   const handleAddNewUserClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -38,7 +38,7 @@ export default function Home() {
       <OscarPartyHead />
       <main>
         <h1>Users</h1>
-        {!!users.length && <Users users={users} />}
+        {!!tallies.length && <Users tallies={tallies} />}
         {
           showNewUser ? (
             <NewUser onCancel={handleNewUserClose} onSubmit={handleNewUserClose} />
@@ -54,12 +54,14 @@ export default function Home() {
 
 // Subcomponents
 interface UsersProps {
-  users: UserType[];
+  tallies: Tally[];
 }
-const Users = ({ users }: UsersProps) => {
-  const winnerQuery = useWinnerQuery();
-  const winner = winnerQuery.data || [];
-  
+const Users = ({ tallies }: UsersProps) => {
+  const users = tallies.map(({ user }) => user);
+  const winners = tallies
+    .filter(({ score }, _, [firstTally]) => score === firstTally.score)
+    .map(({ user }) => user);
+
   return (
     <>
       {
@@ -67,7 +69,7 @@ const Users = ({ users }: UsersProps) => {
           <User
             key={user._id}
             id={user._id}
-            name={user.name + (winner.includes(user._id) ? ' 🏆' : '')}
+            name={user.name + (winners.includes(user) ? ' 🏆' : '')}
             avatar={user.avatar}
           />
         ))
