@@ -29,3 +29,8 @@ export interface Selection {
   user: User;
   nomination: Nomination;
 }
+
+export interface Tally {
+  user: User;
+  score: number;
+}
