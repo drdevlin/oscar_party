@@ -5,16 +5,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connect();
   if (req.method === 'GET') {
-	const { year } = req.query;
-
-	// Check for year.
-	if (!year) {
-	  res.status(400).json({ error: 'No year selected.' });
-	  return;
-	}
-
-	// Get user scores for the year.
-	const userScores = await Selection.aggregate([
+    // Build a tally collection.
+    const tallyCollection = await Selection.aggregate([
       // Populate `nomination` field.
       {
         '$lookup': {
@@ -39,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Filter out other years.
       }, {
         '$match': {
-          'nomination.category.year': Number(year)
+          'nomination.category.year': 2022
         }
       // Populate 'user' field.
       }, {
@@ -49,11 +41,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           'foreignField': '_id', 
           'as': 'user'
         }
-      // Map user documents to just the ids.
+      // Turn the user array with one document element into just the document.
       }, {
         '$addFields': {
           'user': {
-            '$first': '$user._id'
+            '$first': '$user'
+          }
+        }
+      // Remove 'user.pin' field.
+      }, {
+        '$project': {
+          'user': {
+            'pin': false
           }
         }
       // Turn the category array with one document element into just the document.
@@ -71,6 +70,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             '$sum': '$nomination.category.points'
           }
         }
+      // Rename '_id' to 'user.
+      }, {
+        '$project': {
+          '_id': false,
+          'user': '$_id',
+          'score': '$score'
+        }
       // Sort highest to lowest.
       }, {
         '$sort': {
@@ -78,12 +84,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
     ]);
-    
-  // Extract the winner. (Many when tied.)
-  const winner = userScores
-    .filter((userScore, _, [userHighScore]) => userScore.score === userHighScore.score)
-    .map((userScore) => userScore._id);
 	
-	res.status(200).json({ data: winner });
+    res.status(200).json({ data: tallyCollection });
   }
 }

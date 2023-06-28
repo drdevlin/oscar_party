@@ -1,4 +1,4 @@
-import type { Category, Nominee, Nomination, User, Selection } from "@/types";
+import type { Category, Nominee, Nomination, User, Selection, Tally } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 // Model Queries
@@ -30,11 +30,4 @@ export const useNominationQuery = makeQuery<Nomination>('/api/nomination', 'nomi
 
 export const useSelectionQuery = makeQuery<Selection>('/api/selection', 'selections');
 
-// Other
-export const useWinnerQuery = () => (useQuery<string[] | null>({
-  queryKey: ['winner'],
-  queryFn: async () => {
-    const response = await fetch('/api/winner/2022');
-    return response.ok ? (await response.json()).data : null;
-  },
-}));
+export const useTallyQuery = makeQuery<Tally>('/api/tally', 'tallies');
