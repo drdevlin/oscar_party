@@ -28,3 +28,16 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+input {
+  min-width: 0;
+  max-width: none;
+}
+
+select {
+  appearance: none;
+  margin: 0.25rem;
+  padding: 0.25rem;
+  color: inherit;
+  background-color: transparent;
+}
