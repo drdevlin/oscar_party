@@ -1,0 +1,26 @@
+.inputFrame {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+}
+
+.input, .xButton {
+  margin-right: 0.25rem;
+}
+
+.button {
+  flex: none;
+  height: 2rem;
+  width: 2rem;
+  border: none;
+  background-color: transparent;
+}
+
+.icon {
+  height: 100%;
+  width: 100%;
+  fill: rgb(63 63 70);
+}
