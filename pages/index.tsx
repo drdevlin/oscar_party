@@ -4,10 +4,9 @@ import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
 import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
+import { PlusButton } from '@/components/PlusButton';
 
 import type { Tally } from '@/types';
-
-import styles from '@/styles/HomePage.module.css';
 
 /* The home page displays all users. */
 /* Tapping on a user takes you to the selection page. */
@@ -75,18 +74,5 @@ const Users = ({ tallies }: UsersProps) => {
         ))
       }
     </>
-  );
-};
-
-interface PlusButtonProps {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
-const PlusButton = ({ onClick }: PlusButtonProps) => {
-  return (
-    <button className={styles.addNewUser} onClick={onClick}>
-      <svg className={styles.plus} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
-      </svg>
-    </button>
   );
 };
