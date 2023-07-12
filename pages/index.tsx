@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useTallyQuery } from '@/lib/query';
+import { useTallyQuery, useUserQuery } from '@/lib/query';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
@@ -18,6 +18,8 @@ export default function Home() {
   const [showNewUser, setShowNewUser] = useState(false);
   
   // Queries
+  const userQuery = useUserQuery();
+  const allUsers = userQuery.data || [];
   const tallyQuery = useTallyQuery();
   const tallies = tallyQuery.data || [];
   
@@ -32,12 +34,20 @@ export default function Home() {
     setShowNewUser(false);
   };
 
+  // Calculated Props
+  const talliesForAllUsers = allUsers.map((user) => {
+    const userTally = tallies.find((tally) => tally.user._id === user._id);
+    // If a user doesn't have a tally, give them a score of 0.
+    const score = userTally?.score || 0;
+    return { user, score };
+  });
+
   return (
     <>
       <OscarPartyHead />
       <main>
-        <h1>Users</h1>
-        {!!tallies.length && <Users tallies={tallies} />}
+        <h1>Players</h1>
+        {!!tallies.length && <Users tallies={talliesForAllUsers} />}
         {
           showNewUser ? (
             <NewUser onCancel={handleNewUserClose} onSubmit={handleNewUserClose} />
