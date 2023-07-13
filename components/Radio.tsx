@@ -5,7 +5,7 @@ import styles from './Radio.module.css';
 
 export interface Choice {
   id: string;
-  value: string;
+  value: React.ReactNode;
   highlight?: boolean;
 }
 

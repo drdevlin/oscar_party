@@ -1,13 +1,12 @@
 import { useContext, useState } from 'react';
-import { useTallyQuery } from '@/lib/query';
+import { useTallyQuery, useUserQuery } from '@/lib/query';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
 import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
+import { PlusButton } from '@/components/PlusButton';
 
-import type { Tally } from '@/types';
-
-import styles from '@/styles/HomePage.module.css';
+import type { Tally, User as UserType } from '@/types';
 
 /* The home page displays all users. */
 /* Tapping on a user takes you to the selection page. */
@@ -19,6 +18,8 @@ export default function Home() {
   const [showNewUser, setShowNewUser] = useState(false);
   
   // Queries
+  const userQuery = useUserQuery();
+  const users = userQuery.data || [];
   const tallyQuery = useTallyQuery();
   const tallies = tallyQuery.data || [];
   
@@ -33,12 +34,17 @@ export default function Home() {
     setShowNewUser(false);
   };
 
+  // Calculated Props
+  const isNew = (user: UserType) => !(tallies.find((tally) => tally.user._id === user._id));
+  const talliesForNewUsers = users.map((user) => isNew(user) && { user, score: 0 }).filter(Boolean) as Tally[];
+  const allTallies = [...tallies, ...talliesForNewUsers];
+
   return (
     <>
       <OscarPartyHead />
       <main>
-        <h1>Users</h1>
-        {!!tallies.length && <Users tallies={tallies} />}
+        <h1>Players</h1>
+        {!!tallies.length && <Users tallies={allTallies} />}
         {
           showNewUser ? (
             <NewUser onCancel={handleNewUserClose} onSubmit={handleNewUserClose} />
@@ -75,18 +81,5 @@ const Users = ({ tallies }: UsersProps) => {
         ))
       }
     </>
-  );
-};
-
-interface PlusButtonProps {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
-const PlusButton = ({ onClick }: PlusButtonProps) => {
-  return (
-    <button className={styles.addNewUser} onClick={onClick}>
-      <svg className={styles.plus} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/>
-      </svg>
-    </button>
   );
 };

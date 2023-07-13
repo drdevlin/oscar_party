@@ -1,0 +1,45 @@
+.title {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.add {
+  margin-left: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border: none;
+  background-color: transparent;
+} 
+
+.plus {
+  height: 100%;
+  width: 100%;
+  fill: rgb(63 63 70);
+}
+
+.newNominee {
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgb(24 24 27);
+}
+
+.suggestions {
+  z-index: 2;
+  position: absolute;
+  top: 4rem;
+  right: 0;
+  left: 0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: rgb(63 63 70);
+}
+
+.suggestion {
+  margin-bottom: 0.5rem;
+}

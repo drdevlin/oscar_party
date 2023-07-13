@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.button {
+  flex: none;
+  border: none;
+  background-color: transparent;
+}
+
+.icon {
+  height: 2rem;
+  width: 2rem;
+  fill: rgb(63 63 70);
+}
+
+.input {
+  display: block;
+  width: 100%;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(var(--op-white-rgb));
+  text-align: center;
+  background-color: transparent;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input::placeholder {
+  font-size: 1.5rem;
+  color: rgb(82 82 91);
+}

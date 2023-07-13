@@ -1,52 +1,89 @@
+import { createContext, useState } from 'react';
+
 import {
   useCategoryQuery,
   useNomineeQuery,
   useNominationQuery,
-  useUserQuery
-} from "@/lib/query";
-import { Edit } from "@/components/Edit";
-import { New } from "@/components/New";
-import { Table } from "@/components/Table";
+} from '@/lib/query';
 
-/* A very rough admin page for adding and editing documents. */
+import { Nominees } from '@/components/Nominees';
+import { PlusButton } from '@/components/PlusButton';
+import { NewCategory } from '@/components/NewCategory';
+
+import type { Category, Nomination, Nominee } from '@/types';
+
+import styles from '@/styles/AdminPage.module.css';
+
+/* All Nominees */
+export const NomineesContext = createContext<Nominee[]>([]);
+
+/* A rough admin page for adding and editing categories and nominations. */
 export default function Admin() {
+  // Queries
   const nomineeQuery = useNomineeQuery();
-  const userQuery = useUserQuery();
+  const allNominees = nomineeQuery.data || [];
   const categoryQuery = useCategoryQuery();
+  const allCategories = categoryQuery.data || [];
   const nominationQuery = useNominationQuery();
+  const allNominations = nominationQuery.data || [];
 
-  const allNominees = nomineeQuery.data;
-  const allUsers = userQuery.data;
-  const allCategories = categoryQuery.data;
-  const allNominations = nominationQuery.data;
+  // State
+  const [year, setYear] = useState(2022);
+  const [showNewCategory, setShowNewCategory] = useState(false);
+  
+  // Handlers
+  const handleYearChange: React.ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
+    setYear(Number(currentTarget.value));
+  };
+
+  const updateShowNewCategoryStatus = (status: boolean): React.MouseEventHandler<HTMLButtonElement> => () => {
+    setShowNewCategory(status);
+  };
+
+  // Calculated Props
+  const nominationsByCategory = new Map<Category, Nomination[]>();
+  const categoriesOfYear = allCategories.filter((category) => category.year === year);
+  categoriesOfYear.forEach((category) => {
+    const nominationsForCategory = allNominations.filter((nomination) => nomination.category._id === category._id);
+    nominationsByCategory.set(category, nominationsForCategory);
+  });
 
   return (
     <>
       <h1>Admin</h1>
-      <h2>All Categories</h2>
-      <Table records={allCategories || []} />
-      <h2>Edit</h2>
-      <Edit model="Category" fields={['_id', 'name', 'year', 'points']} />
-      <h2>New</h2>
-      <New model="Category" fields={['name', 'year', 'points']} />
-      <h2>All Nominees</h2>
-      <Table records={allNominees || []} />
-      <h2>Edit</h2>
-      <Edit model="Nominee" fields={['_id', 'name']} />
-      <h2>New</h2>
-      <New model="Nominee" fields={['name']} />
-      <h2>All Users</h2>
-      <Table records={allUsers || []} />
-      <h2>Edit</h2>
-      <Edit model="User" fields={['_id', 'name', 'avatar']} />
-      <h2>New</h2>
-      <New model="User" fields={['name', 'avatar']} />
-      <h2>All Nominations</h2>
-      <Table records={allNominations || []} />
-      <h2>Edit</h2>
-      <Edit model="Nomination" fields={['_id', 'category', 'nominee', 'win']} />
-      <h2>New</h2>
-      <New model="Nomination" fields={['category', 'nominee', 'win']} />
+
+      {/* Year Selector */}
+      <div className={styles.yearSelect}>
+        <label htmlFor="year-select">Year</label>
+        <select name="years" id="year-select" value={year} onChange={handleYearChange}>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+        </select>
+      </div>
+
+      {/* Existing Categories of the Year */}
+      <NomineesContext.Provider value={allNominees}>
+        {
+          !!categoriesOfYear.length && (
+            categoriesOfYear.map((category) => (
+              <Nominees key={category._id} category={category} nominations={nominationsByCategory.get(category) || []} />
+            ))
+          )
+        }
+      </NomineesContext.Provider>
+
+      {/* Add New Category */}
+      {
+        showNewCategory ? (
+          <NewCategory
+            onCancel={updateShowNewCategoryStatus(false)}
+            onSubmit={updateShowNewCategoryStatus(false)}
+            year={year}
+          />
+        ) : (
+          <PlusButton onClick={updateShowNewCategoryStatus(true)} />
+        )
+      }
     </>
   );
 }
