@@ -6,7 +6,7 @@ import { NewUser } from '@/components/NewUser';
 import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
 import { PlusButton } from '@/components/PlusButton';
 
-import type { Tally } from '@/types';
+import type { Tally, User as UserType } from '@/types';
 
 /* The home page displays all users. */
 /* Tapping on a user takes you to the selection page. */
@@ -19,7 +19,7 @@ export default function Home() {
   
   // Queries
   const userQuery = useUserQuery();
-  const allUsers = userQuery.data || [];
+  const users = userQuery.data || [];
   const tallyQuery = useTallyQuery();
   const tallies = tallyQuery.data || [];
   
@@ -35,19 +35,16 @@ export default function Home() {
   };
 
   // Calculated Props
-  const talliesForAllUsers = allUsers.map((user) => {
-    const userTally = tallies.find((tally) => tally.user._id === user._id);
-    // If a user doesn't have a tally, give them a score of 0.
-    const score = userTally?.score || 0;
-    return { user, score };
-  });
+  const isNew = (user: UserType) => !(tallies.find((tally) => tally.user._id === user._id));
+  const talliesForNewUsers = users.map((user) => isNew(user) && { user, score: 0 }).filter(Boolean) as Tally[];
+  const allTallies = [...tallies, ...talliesForNewUsers];
 
   return (
     <>
       <OscarPartyHead />
       <main>
         <h1>Players</h1>
-        {!!tallies.length && <Users tallies={talliesForAllUsers} />}
+        {!!tallies.length && <Users tallies={allTallies} />}
         {
           showNewUser ? (
             <NewUser onCancel={handleNewUserClose} onSubmit={handleNewUserClose} />
