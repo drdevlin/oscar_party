@@ -4,10 +4,15 @@
   justify-content: space-between;
   flex-grow: 1;
   height: 3rem;
+  overflow: hidden;
 }
 
 .avatarFrame {
   margin-right: 1rem;
+}
+
+.pinFrame {
+  clip-path: inset(0 -100vw -1rem -100vw);
 }
 
 .input {

@@ -4,6 +4,8 @@ import { useUserStore } from '@/lib/userStore';
 import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
 import { Selection } from '@/components/Selection';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
+import { AnimatePresence } from 'framer-motion';
+import { Placeholder } from '@/components/Placeholder';
 
 /* The selection page displays all the nominee selections for a user by category. */
 /* If the user matches the signed in user, */
@@ -46,18 +48,23 @@ export default function SelectionPage() {
               <Link href="/">
                 <h1>{user.name}</h1>
               </Link>
-              {
-                !!allCategories.length &&
-                  allCategories.map((category) => (
-                    <Selection 
-                      key={category._id}
-                      category={category}
-                      userId={userId || ''}
-                      userSelections={userSelections}
-                      isSignedIn={isSignedIn}
-                    /> 
-                  ))
-              }
+              <AnimatePresence mode="popLayout">
+                {
+                  allCategories.length ? (
+                    allCategories.map((category) => (
+                      <Selection 
+                        key={category._id}
+                        category={category}
+                        userId={userId || ''}
+                        userSelections={userSelections}
+                        isSignedIn={isSignedIn}
+                      /> 
+                    ))
+                  ) : (
+                    <Placeholder />
+                  )
+                }
+              </AnimatePresence>
             </>
         }
       </main>

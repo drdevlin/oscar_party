@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTallyQuery, useUserQuery } from '@/lib/query';
+import { ScaleTransition } from '@/lib/motion';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
@@ -7,6 +9,7 @@ import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
 import { PlusButton } from '@/components/PlusButton';
 
 import type { Tally, User as UserType } from '@/types';
+import { Placeholder } from '@/components/Placeholder';
 
 /* The home page displays all users. */
 /* Tapping on a user takes you to the selection page. */
@@ -44,14 +47,28 @@ export default function Home() {
       <OscarPartyHead />
       <main>
         <h1>Players</h1>
-        {!!tallies.length && <Users tallies={allTallies} />}
-        {
-          showNewUser ? (
-            <NewUser onCancel={handleNewUserClose} onSubmit={handleNewUserClose} />
-          ) : (
-            <PlusButton onClick={handleAddNewUserClick} />
-          )
-        }
+        <AnimatePresence mode="popLayout">
+          {
+            allTallies.length ? (
+              <Users key="users" tallies={allTallies} />
+            ) : (
+              <Placeholder key="placeholder" />     
+            )
+          }
+        </AnimatePresence>
+        <AnimatePresence mode="popLayout">
+          {
+            showNewUser ? (
+              <ScaleTransition key="new-user">
+                <NewUser onCancel={handleNewUserClose} onSubmit={handleNewUserClose} />
+              </ScaleTransition>
+            ) : (
+              <ScaleTransition key="plus-button">
+                <PlusButton onClick={handleAddNewUserClick} />
+              </ScaleTransition>
+            )
+          }
+        </AnimatePresence>
       </main>
       {unauthorizedVisibility && <Unauthorized />}
     </>
