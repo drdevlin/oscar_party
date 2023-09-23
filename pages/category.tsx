@@ -4,8 +4,6 @@ import { useNominationQuery, useSelectionQuery } from '@/lib/query';
 import { useUserStore } from '@/lib/userStore';
 import { Category } from '@/components/Category';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
-import { AnimatePresence } from 'framer-motion';
-import { Placeholder } from '@/components/Placeholder';
 
 /* The category page displays all the nominees for a category. */
 /* In a radio-style, it displays the selection of a user. */
@@ -49,20 +47,14 @@ export default function CategoryPage() {
               <Link href={`/selection?user=${userId}`}>
                 <h1>{categoryName}</h1>
               </Link>
-              <AnimatePresence mode="popLayout">
-                {
-                  nominations.length ? (
-                    <Category
-                      key="category"
-                      userId={userId}
-                      nominations={nominations}
-                      selection={userSelection}
-                    />
-                  ) : (
-                    <Placeholder key="placeholder"/>
-                  )
-                }
-              </AnimatePresence>
+              {
+                !!nominations.length &&
+                  <Category
+                    userId={userId}
+                    nominations={nominations}
+                    selection={userSelection}
+                  />
+              }
             </>
         }
       </main>
