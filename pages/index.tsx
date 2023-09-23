@@ -7,9 +7,9 @@ import { User } from '@/components/User';
 import { NewUser } from '@/components/NewUser';
 import { Unauthorized, UnauthorizedContext } from '@/components/Unauthorized';
 import { PlusButton } from '@/components/PlusButton';
+import { Placeholder } from '@/components/Placeholder';
 
 import type { Tally, User as UserType } from '@/types';
-import { Placeholder } from '@/components/Placeholder';
 
 /* The home page displays all users. */
 /* Tapping on a user takes you to the selection page. */

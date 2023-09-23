@@ -4,11 +4,11 @@ import { useUserMutation } from '@/lib/mutation';
 import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
 import { Pin } from '@/components/Pin';
+import { SlideUpTransition } from '@/lib/motion';
 
 import type { PinProps, PinRef } from '@/components/Pin';
 
 import styles from './NewUser.module.css';
-import { SlideUpTransition } from '@/lib/motion';
 
 export interface NewUserProps {
   onCancel: React.MouseEventHandler<HTMLButtonElement>;

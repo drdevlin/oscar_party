@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { AnimatePresence } from 'framer-motion';
 import { useUserStore } from '@/lib/userStore';
 import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
 import { Selection } from '@/components/Selection';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
-import { AnimatePresence } from 'framer-motion';
 import { Placeholder } from '@/components/Placeholder';
 
 /* The selection page displays all the nominee selections for a user by category. */

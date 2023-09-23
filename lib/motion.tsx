@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { forwardRef } from 'react';
 
+/* Transitions and Animations */
+
 // Scale
 const scaleVariant = {
   show: {
