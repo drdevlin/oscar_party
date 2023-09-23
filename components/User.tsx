@@ -1,7 +1,9 @@
 import { useContext, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
 import { useUserStore } from '@/lib/userStore';
+import { ScaleTransition, SlideUpTransition } from '@/lib/motion';
 import { UnauthorizedContext } from '@/components/Unauthorized';
 import { Item } from '@/components/Item';
 import { Avatar } from '@/components/Avatar';
@@ -59,22 +61,31 @@ export const User = ({ id, name, avatar }: UserProps) => {
     }
   }
 
-
   return (
     <Item>
       <div className={styles.avatarFrame}>
         <Avatar avatar={avatar} isSignedIn={isSignedIn} onClick={handleAvatarClick} />
       </div>
-      {pinMode ? (
-        <Pin onChange={handlePinChange} description="4-Digit PIN" autoFocus />
-      ) : (
-        <Link className={styles.link} href={`/selection?user=${id}`}>
-          <h2>{name}</h2>
-          <svg className={styles.chevron} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-            <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/>
-          </svg>
-        </Link>
-      )}
+      <AnimatePresence mode="popLayout" initial={false}>
+        {pinMode ? (
+          <div className={styles.pinFrame} key="pin">
+            <SlideUpTransition>
+              <Pin onChange={handlePinChange} description="4-Digit PIN" autoFocus />
+            </SlideUpTransition>
+          </div>
+        ) : (
+          <Link className={styles.link} href={`/selection?user=${id}`}>
+            <SlideUpTransition key="link">
+              <h2>{name}</h2>
+            </SlideUpTransition>
+            <ScaleTransition key="chevron">
+              <svg className={styles.chevron} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/>
+              </svg>
+            </ScaleTransition>
+          </Link>
+        )}
+      </AnimatePresence>
     </Item>
   );
 };
