@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Filter out other years.
       }, {
         '$match': {
-          'nomination.category.year': 2022
+          'nomination.category.year': 2023
         }
       // Populate 'user' field.
       }, {

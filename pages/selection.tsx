@@ -33,9 +33,10 @@ export default function SelectionPage() {
   // Fetch all the categories.
   const categoryQuery = useCategoryQuery();
   const allCategories = categoryQuery.data || [];
+  const currentYearCategories = allCategories.filter(({ year }) => year === 2023);
 
   // Calculated Props
-  const title = user ? `${user.name}'s Picks` : 'No User';
+  const title = user ? `${user.name}'s Picks` : '';
   const isSignedIn = user && user._id === signedInUserId;
 
   return (
@@ -46,12 +47,12 @@ export default function SelectionPage() {
           !!user &&
             <>
               <Link href="/">
-                <h1>{user.name}</h1>
+                <h1>{title}</h1>
               </Link>
               <AnimatePresence mode="popLayout">
                 {
-                  allCategories.length ? (
-                    allCategories.map((category) => (
+                  currentYearCategories.length ? (
+                    currentYearCategories.map((category) => (
                       <Selection 
                         key={category._id}
                         category={category}

@@ -28,7 +28,7 @@ export default function Admin() {
   const allNominations = nominationQuery.data || [];
 
   // State
-  const [year, setYear] = useState(2022);
+  const [year, setYear] = useState(2023);
   const [showNewCategory, setShowNewCategory] = useState(false);
   
   // Handlers
