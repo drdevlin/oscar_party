@@ -19,6 +19,7 @@
 }
 
 .newNominee {
+  z-index: 2;
   position: absolute;
   top: 1.5rem;
   right: 0;
