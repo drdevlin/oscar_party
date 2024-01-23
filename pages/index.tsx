@@ -82,7 +82,7 @@ interface UsersProps {
 const Users = ({ tallies }: UsersProps) => {
   const users = tallies.map(({ user }) => user);
   const winners = tallies
-    .filter(({ score }, _, [firstTally]) => score === firstTally.score)
+    .filter(({ score }, _, [firstTally]) => score === firstTally.score && score !== 0)
     .map(({ user }) => user);
 
   return (
