@@ -4,9 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>Oscar Party</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="rgb(24 24 27)" />
+        <meta name="theme-color" content="rgb(199, 159, 39)" />
       </Head>
       <body>
         <Main />
