@@ -23,6 +23,7 @@ const userSchema = new Schema<UserType>({
   name: { type: String, required: true },
   avatar: { type: String, required: true },
   pin: String,
+  showSelections: Boolean,
 });
 export const User = makeModel<UserType>('User', userSchema);
 

@@ -8,6 +8,7 @@ export interface User {
   name: string;
   avatar: string;
   pin?: string;
+  showSelections?: boolean;
 }
 
 export interface Category {

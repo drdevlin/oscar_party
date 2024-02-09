@@ -12,7 +12,7 @@ export const makeGet = (projection?: ProjectionType<any>) => async (Model: Model
 };
 
 export const get = makeGet();
-export const userGet = makeGet('name avatar');
+export const userGet = makeGet('name avatar showSelections');
 
 export type BodyFormatter = (body: any) => any;
 

@@ -1,0 +1,20 @@
+.hide {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.hidden, .visible {
+  height: 2rem;
+  width: 2rem;
+}
+
+.hidden {
+  fill: rgb(var(--op-gold-rgb));
+}
+
+.visible {
+  fill: rgb(39 39 42);
+}
