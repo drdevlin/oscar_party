@@ -6,6 +6,7 @@ import { useCategoryQuery, useSelectionQuery, useUserQuery } from '@/lib/query';
 import { Selection } from '@/components/Selection';
 import { OscarPartyHead } from '@/components/OscarPartyHead';
 import { Placeholder } from '@/components/Placeholder';
+import { HideButton } from '@/components/HideButton';
 
 /* The selection page displays all the nominee selections for a user by category. */
 /* If the user matches the signed in user, */
@@ -38,6 +39,7 @@ export default function SelectionPage() {
   // Calculated Props
   const title = user ? `${user.name}'s Picks` : '';
   const isSignedIn = user && user._id === signedInUserId;
+  const showSelections = isSignedIn || user?.showSelections;
 
   return (
     <>
@@ -49,23 +51,27 @@ export default function SelectionPage() {
               <Link href="/">
                 <h1>{title}</h1>
               </Link>
-              <AnimatePresence mode="popLayout">
-                {
-                  currentYearCategories.length ? (
-                    currentYearCategories.map((category) => (
-                      <Selection 
-                        key={category._id}
-                        category={category}
-                        userId={userId || ''}
-                        userSelections={userSelections}
-                        isSignedIn={isSignedIn}
-                      /> 
-                    ))
-                  ) : (
-                    <Placeholder />
-                  )
-                }
-              </AnimatePresence>
+              {
+                showSelections &&
+                  <AnimatePresence mode="popLayout">
+                    {
+                      currentYearCategories.length ? (
+                        currentYearCategories.map((category) => (
+                          <Selection 
+                            key={category._id}
+                            category={category}
+                            userId={userId || ''}
+                            userSelections={userSelections}
+                            isSignedIn={isSignedIn}
+                          /> 
+                        ))
+                      ) : (
+                        <Placeholder />
+                      )
+                    }
+                  </AnimatePresence>
+              }
+              <HideButton activated={!user?.showSelections} userId={user._id} authorized={isSignedIn} />
             </>
         }
       </main>
