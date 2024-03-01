@@ -37,7 +37,7 @@ export default function SelectionPage() {
   const currentYearCategories = allCategories.filter(({ year }) => year === 2023);
 
   // Calculated Props
-  const title = user ? `${user.name}'s Picks` : '';
+  const title = user ? `${user.name}’s Picks` : '';
   const isSignedIn = user && user._id === signedInUserId;
   const showSelections = isSignedIn || user?.showSelections;
 
