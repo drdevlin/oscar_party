@@ -18,18 +18,22 @@ export const Category = ({ userId, nominations, selection }: CategoryProps) => {
 
   // Handlers
   const handleChange: RadioChangeHandler = (choice) => {
+    /* LOCK UPDATES */
+    return;
+    /* */
+
     if (!choice) return;
 
     const method = selection ? 'PATCH' : 'POST';
     const body = selection ? (
       {
-        _id: selection._id,
-        nomination: choice.id,
+        //_id: selection._id,
+        //nomination: choice.id,
       }
     ) : (
       {
         user: userId,
-        nomination: choice.id,
+        //nomination: choice.id,
       }
     );
     selectionMutation.mutateAsync({ method, body: JSON.stringify(body) });
